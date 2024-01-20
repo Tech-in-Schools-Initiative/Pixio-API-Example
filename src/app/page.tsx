@@ -77,7 +77,7 @@ function Txt2img() {
             if (loading) return;
             setLoading(true);
 
-            const promises = Array(4).fill(null).map(() => {
+            const promises = Array(2).fill(null).map(() => {
               return generate(prompt)
                 .then((res) => {
                   if (res) {
