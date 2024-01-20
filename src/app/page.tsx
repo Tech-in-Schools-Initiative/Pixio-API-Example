@@ -35,8 +35,8 @@ export default function Page() {
       <Tabs defaultValue="txt2img" className="w-full max-w-[600px]">
         <TabsList className="grid w-full grid-cols-3">
           <TabsTrigger value="txt2img">txt2img</TabsTrigger>
-          <TabsTrigger value="img2img">img2img</TabsTrigger>
-          <TabsTrigger value="controlpose">Controlpose</TabsTrigger>
+          {/* <TabsTrigger value="img2img">img2img</TabsTrigger>
+          <TabsTrigger value="controlpose">Controlpose</TabsTrigger> */}
         </TabsList>
         <TabsContent value="txt2img">
           <Txt2img />
@@ -53,18 +53,19 @@ export default function Page() {
 }
 
 function Txt2img() {
-  const [prompt, setPrompt] = useState("");
+  const [positivePrompt, setPositivePrompt] = useState("");
+  const [negativePrompt, setNegativePrompt] = useState("");
   const [loading, setLoading] = useState(false);
   const [runIds, setRunIds] = useState<string[]>([]);
 
   return (
     <Card className="w-full max-w-[600px]">
       <CardHeader>
-        Comfy Deploy - Vector Line Art Tool
+       Pixio API Example App
         <div className="text-xs text-foreground opacity-50">
-          Lora -{" "}
-          <a href="https://civitai.com/models/256144/stick-line-vector-illustration">
-            stick-line-vector-illustration
+          Our text2img demo -{" "}
+          <a href="https://myapps.ai">
+            start building today!
           </a>
         </div>
       </CardHeader>
@@ -77,8 +78,8 @@ function Txt2img() {
             if (loading) return;
             setLoading(true);
 
-            const promises = Array(2).fill(null).map(() => {
-              return generate(prompt)
+            const promises = Array(4).fill(null).map(() => {
+              return generate(positivePrompt, negativePrompt)
                 .then((res) => {
                   if (res) {
                     setRunIds((ids) => [...ids, res.run_id]);
@@ -95,16 +96,23 @@ function Txt2img() {
             });
           }}
         >
-          <Label htmlFor="picture">Image prompt</Label>
-          <Input
-            id="picture"
-            type="text"
-            value={prompt}
-            onChange={(e) => setPrompt(e.target.value)}
-          />
-          <Button type="submit" className="flex gap-2" disabled={loading}>
-            Generate {loading && <LoadingIcon />}
-          </Button>
+           <Label htmlFor="positive-prompt">Positive prompt</Label>
+            <Input
+              id="positive-prompt"
+              type="text"
+              value={positivePrompt}
+              onChange={(e) => setPositivePrompt(e.target.value)}
+            />
+            <Label htmlFor="negative-prompt">Negative prompt</Label>
+            <Input
+              id="negative-prompt"
+              type="text"
+              value={negativePrompt}
+              onChange={(e) => setNegativePrompt(e.target.value)}
+            />
+            <Button type="submit" className="flex gap-2" disabled={loading}>
+              Generate {loading && <LoadingIcon />}
+            </Button>
 
           <div className="grid grid-cols-2 gap-4">
             {runIds.map((runId, index) => (
