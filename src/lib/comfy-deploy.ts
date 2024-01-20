@@ -21,7 +21,7 @@ const uploadFileTypes = z.object({
 });
 
 export class ComfyDeployClient {
-  apiBase: string = "https://www.comfydeploy.com/api";
+  apiBase: string = "https:/api.myapps.ai/api";
   apiToken: string;
 
   constructor({ apiBase, apiToken }: { apiBase?: string; apiToken: string }) {
